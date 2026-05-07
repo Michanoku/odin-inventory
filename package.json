@@ -1,18 +1,18 @@
 {
-  "name": "express-template",
+  "name": "odin-inventory",
   "version": "1.0.0",
-  "description": "Node Express Template For Coding Practice",
+  "description": "The Odin Project Inventory Application",
   "keywords": [
     "Node",
     "Express"
   ],
-  "homepage": "https://github.com/Michanoku/node-express-template#readme",
+  "homepage": "https://github.com/Michanoku/odin-inventory#readme",
   "bugs": {
-    "url": "https://github.com/Michanoku/node-express-template/issues"
+    "url": "https://github.com/Michanoku/odin-inventory/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Michanoku/node-express-template.git"
+    "url": "git+https://github.com/Michanoku/odin-inventory.git"
   },
   "license": "MIT",
   "author": "Michanoku",
@@ -30,7 +30,8 @@
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "pg": "^8.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

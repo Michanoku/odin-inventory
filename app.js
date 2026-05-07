@@ -5,6 +5,11 @@ const morgan = require("morgan");
 const path = require("path");
 
 const indexRoutes = require("./routes/index");
+const gameRoutes = require("./routes/games");
+const devRoutes = require("./routes/dev");
+const genreRoutes = require("./routes/genre");
+const platformRoutes = require("./routes/platform");
+
 
 const app = express();
 
@@ -24,6 +29,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRoutes);
+app.use("/games", gameRoutes);
+app.use("/developers", devRoutes);
+app.use("/genres", genreRoutes);
+app.use("/platforms", platformRoutes);
 
 // 404
 app.use((req, res) => {
