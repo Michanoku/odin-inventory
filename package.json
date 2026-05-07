@@ -1,0 +1,43 @@
+{
+  "name": "express-template",
+  "version": "1.0.0",
+  "description": "Node Express Template For Coding Practice",
+  "keywords": [
+    "Node",
+    "Express"
+  ],
+  "homepage": "https://github.com/Michanoku/node-express-template#readme",
+  "bugs": {
+    "url": "https://github.com/Michanoku/node-express-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michanoku/node-express-template.git"
+  },
+  "license": "MIT",
+  "author": "Michanoku",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "compression": "^1.8.1",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "jest": "^30.3.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
+  }
+}
