@@ -2,11 +2,6 @@
 require("dotenv").config();
 const { Client } = require("pg");
 
-- games (title, genre, platform, developer)
-- genre (name)
-- platform (name)
-- developer (name)
-
 const SQL = `
 CREATE TABLE IF NOT EXISTS developers (
   developer_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
