@@ -4,11 +4,11 @@ const compression = require("compression");
 const morgan = require("morgan");
 const path = require("path");
 
-const indexRoutes = require("./routes/index");
-const gameRoutes = require("./routes/games");
-const devRoutes = require("./routes/dev");
-const genreRoutes = require("./routes/genre");
-const platformRoutes = require("./routes/platform");
+const indexRoutes = require("./routes/indexRoutes");
+const gameRoutes = require("./routes/gameRoutes");
+const devRoutes = require("./routes/devRoutes");
+const genreRoutes = require("./routes/genreRoutes");
+const platformRoutes = require("./routes/platformRoutes");
 
 
 const app = express();

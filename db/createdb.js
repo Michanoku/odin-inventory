@@ -41,7 +41,7 @@ CREATE TABLE game_platform (
 `;
 
 async function main() {
-  console.log("seeding...");
+  console.log("creating tables...");
   const client = new Client({
     connectionString: `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:5432/${process.env.DB_NAME}`,
   });

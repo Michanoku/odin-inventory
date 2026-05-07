@@ -1,0 +1,20 @@
+    <!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/header') %>
+  <div><%- title %></div>
+  <%- include("../partials/errors.ejs") %>
+<form class="confirm-form" method="post" action="/genres/edit/<%= genre.genre_id %>">
+    <input type="text" name="name" placeolder="Genre" value="<%= genre.name %>" required/>
+    <button type="submit">Submit</button>
+</form>
+<form class="confirm-form" method="post" action="/genres/delete/<%= genre.genre_id %>">
+    <button type="submit">Delete</button>
+</form>
+  <%- include('../partials/footer') %>
+  <script type="text/javascript" src="/scripts/formConfirm.js"></script>
+</body>
+
+</html>

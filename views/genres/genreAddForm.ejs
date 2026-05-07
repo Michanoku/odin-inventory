@@ -1,0 +1,16 @@
+    <!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/header') %>
+  <div><%- title %></div>
+  <%- include("../partials/errors.ejs") %>
+<form method="post" action="/genres/add">
+    <input type="text" name="name" placeolder="Genre" required/>
+    <button type="submit">Submit</button>
+</form>
+  <%- include('../partials/footer') %>
+</body>
+
+</html>
