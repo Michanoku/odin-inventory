@@ -8,3 +8,4 @@ module.exports = new Pool({
   password: process.env.DB_PASSWORD,
   port: 5432
 });
+
