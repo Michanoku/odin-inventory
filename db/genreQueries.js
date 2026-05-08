@@ -21,16 +21,22 @@ async function getAllGenres() {
 }
 
 async function createGenre(name) {
-    await pool.query("INSERT INTO genres (name) VALUES ($1)", [name]);
+  await pool.query("INSERT INTO genres (name) VALUES ($1)", [name]);
 }
 
 async function readGenre(id) {
-  const { rows } = await pool.query("SELECT * FROM genres WHERE genre_id = $1", [id]);
+  const { rows } = await pool.query(
+    "SELECT * FROM genres WHERE genre_id = $1",
+    [id],
+  );
   return rows[0];
 }
 
 async function updateGenre(genre) {
-  await pool.query("UPDATE genres SET name = $1 WHERE genre_id = $2", [genre.name, genre.id]);
+  await pool.query("UPDATE genres SET name = $1 WHERE genre_id = $2", [
+    genre.name,
+    genre.id,
+  ]);
 }
 
 async function deleteGenre(id) {

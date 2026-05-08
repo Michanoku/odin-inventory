@@ -11,17 +11,17 @@ const validateGenre = [
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Genre contains invalid characters.")
     .isLength({ max: 32 })
-    .withMessage(`Genre must not be longer than 32 characters.`)
+    .withMessage(`Genre must not be longer than 32 characters.`),
 ];
 
 const getAllGenres = async (req, res) => {
   const genres = await db.getAllGenres();
-  res.render('genres/genreIndex', { title: "Genres", genres: genres });
-}
+  res.render("genres/genreIndex", { title: "Genres", genres: genres });
+};
 
 const getNewGenre = async (req, res) => {
-  res.render('genres/genreAddForm', { title: "Add Genre" });
-}
+  res.render("genres/genreAddForm", { title: "Add Genre" });
+};
 
 const postNewGenre = [
   validateGenre,
@@ -43,8 +43,8 @@ const postNewGenre = [
 
 const getEditGenre = async (req, res) => {
   const genre = await db.readGenre(req.params.id);
-  res.render('genres/genreEditForm', { title: "Edit Genre", genre: genre });
-}
+  res.render("genres/genreEditForm", { title: "Edit Genre", genre: genre });
+};
 
 const postEditGenre = [
   validateGenre,
@@ -67,14 +67,13 @@ const postEditGenre = [
 const postDeleteGenre = async (req, res) => {
   const genre = await db.deleteGenre(req.params.id);
   res.redirect("/genres");
-}
+};
 
 module.exports = {
-    getAllGenres,
-    getNewGenre,
-    postNewGenre,
-    getEditGenre,
-    postEditGenre,
-    postDeleteGenre,
-
-}
+  getAllGenres,
+  getNewGenre,
+  postNewGenre,
+  getEditGenre,
+  postEditGenre,
+  postDeleteGenre,
+};

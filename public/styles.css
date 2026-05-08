@@ -1,40 +1,40 @@
 :root {
   font-size: 16px;
-  --color-primary: #2C634C;
-  --color-accent: #941C2F;
-  --color-button-text: #F7F6F3;
-  --color-bg: #F7F6F3;
-  --color-surface: #E0E3DE;
-  --color-text: #153B50;
-  --color-text-muted: #3E5D72;
+  --color-primary: #2c634c;
+  --color-accent: #941c2f;
+  --color-button-text: #f7f6f3;
+  --color-bg: #f7f6f3;
+  --color-surface: #e0e3de;
+  --color-text: #153b50;
+  --color-text-muted: #3e5d72;
 
   --transition: background-color 250ms ease-in-out, color 250ms ease-in-out;
 
   font-family:
-  "Nunito",
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+    "Nunito",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-bg: #131A1E;
-    --color-surface: #1C252B;
-    --color-text: #E7EDF1;
-    --color-text-muted: #9FB0BB;
+    --color-bg: #131a1e;
+    --color-surface: #1c252b;
+    --color-text: #e7edf1;
+    --color-text-muted: #9fb0bb;
   }
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #131A1E;
-  --color-surface: #1C252B;
-  --color-text: #E7EDF1;
-  --color-text-muted: #9FB0BB;
+  --color-bg: #131a1e;
+  --color-surface: #1c252b;
+  --color-text: #e7edf1;
+  --color-text-muted: #9fb0bb;
 }
 
 * {
@@ -43,7 +43,8 @@
   margin: 0;
 }
 
-input, button {
+input,
+button {
   border: none;
   outline: none;
   background: transparent;
@@ -85,7 +86,7 @@ footer a {
   transition: var(--transition);
 }
 footer a:hover {
-  color: var(--color-text-muted); 
+  color: var(--color-text-muted);
 }
 
 nav {
@@ -97,7 +98,9 @@ nav > a {
   text-decoration: none;
   color: var(--color-text);
   box-shadow: inset 0 -1px 0 0 transparent;
-  transition: box-shadow 250ms ease-in-out, color 250ms ease-in-out;
+  transition:
+    box-shadow 250ms ease-in-out,
+    color 250ms ease-in-out;
 }
 nav > a:hover {
   box-shadow: inset 0 -1px 0 0 var(--color-text-muted);
@@ -116,6 +119,14 @@ input[type="text"] {
   border: 0;
   cursor: pointer;
   color: var(--color-text);
+  transition:
+    color 250ms ease-in-out,
+    transform 400ms ease-in-out;
+}
+
+.theme-toggle:hover {
+  color: var(--color-text-muted);
+  transform: rotate(20deg);
 }
 
 .button {
