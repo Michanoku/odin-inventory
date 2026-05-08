@@ -1,5 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".confirm-form").forEach((form) => {
+const confirmForms = document.querySelectorAll(".confirm-form");
+
+if (confirmForms) {
+  confirmForms.forEach((form) => {
     form.addEventListener("submit", (e) => {
       const confirmed = confirm("Are you sure?");
 
@@ -8,4 +10,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
+}
+

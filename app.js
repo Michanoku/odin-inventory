@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 const path = require("path");
 
 const indexRoutes = require("./routes/indexRoutes");
@@ -9,7 +10,6 @@ const gameRoutes = require("./routes/gameRoutes");
 const devRoutes = require("./routes/devRoutes");
 const genreRoutes = require("./routes/genreRoutes");
 const platformRoutes = require("./routes/platformRoutes");
-
 
 const app = express();
 
@@ -25,8 +25,28 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Cookies
+app.use(cookieParser());
+
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
+
+// Theme
+app.use((req, res, next) => {
+  res.locals.theme = req.cookies.theme || "light";
+  next();
+});
+
+app.post("/theme/toggle", (req, res) => {
+  const current = req.cookies.theme || "light";
+  const next = current === "dark" ? "light" : "dark";
+
+  res.cookie("theme", next, {
+    maxAge: 1000 * 60 * 60 * 24 * 365,
+  });
+
+  res.json({ theme: next });
+});
 
 app.use("/", indexRoutes);
 app.use("/games", gameRoutes);
