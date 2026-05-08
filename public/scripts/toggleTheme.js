@@ -1,7 +1,7 @@
-const toggleButton = document.querySelector("#themeToggle");
+const themeButton = document.querySelector("#themeToggle");
 
-if (toggleButton) {
-  toggleButton.addEventListener("click", async () => {
+if (themeButton) {
+  themeButton.addEventListener("click", async () => {
     const res = await fetch("/theme/toggle", {
       method: "POST",
     });
@@ -10,7 +10,11 @@ if (toggleButton) {
 
     // update UI instantly
     document.documentElement.dataset.theme = data.theme;
-    toggleButton
+    themeButton.setAttribute(
+      "aria-pressed",
+      data.theme === "dark"
+    );
+    themeButton
       .querySelector("svg use")
       .setAttribute("href", `#icon-${data.theme}`);
   });

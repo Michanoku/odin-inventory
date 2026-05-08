@@ -5,7 +5,7 @@
   <body>
     <%- include('../partials/header') %>
       <div class="site-content">
-        <div><%- title %></div>
+        <h2><%- title %></h2>
         <%- include("../partials/errors.ejs") %>
           <form method="post" action="/genres/add">
             <input type="text" name="name" placeolder="Genre" required />

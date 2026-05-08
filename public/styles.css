@@ -67,9 +67,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid var(--color-text-muted);
   border-radius: 0.375rem;
   background-color: var(--color-surface);
   transition: var(--transition);
+  position: relative;
+}
+
+header > h1 {
+  text-align: center;
 }
 
 footer {
@@ -114,7 +120,7 @@ input[type="text"] {
   border-radius: 0.375rem;
 }
 
-.theme-toggle {
+.toggle {
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -148,4 +154,38 @@ button .accent {
 .flex-row {
   display: flex;
   gap: 0.5rem;
+}
+@media (max-width: 991px) {
+  nav {
+    position: absolute;
+
+    flex-direction: column;
+    background-color: var(--color-surface);
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-text-muted);
+    padding: 0.75rem 1rem;
+
+    /* Mobile */
+    position: absolute;
+    top: 7rem;
+    left: 0;
+    opacity: 0;
+    width: 50vw;
+    transform: translateX(-50vw);
+    transition:
+      opacity 350ms ease-in-out,
+      transform 250ms ease-in-out;
+  }
+}
+
+nav.open {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Desktop Styles */
+@media (min-width: 992px) {
+  .mobile {
+    display: none;
+  }
 }

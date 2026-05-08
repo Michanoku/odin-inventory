@@ -1,5 +1,16 @@
 <header>
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <!-- Menu icon -->
+    <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M4 5h16"/>
+      <path d="M4 12h16"/>
+      <path d="M4 19h16"/>
+    </symbol>
+    <!-- Close icon -->
+    <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" >
+      <path d="M18 6 6 18"/>
+      <path d="m6 6 12 12"/>
+    </symbol>
     <!-- Sun icon -->
     <symbol id="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <circle cx="12" cy="12" r="4"></circle>
@@ -19,6 +30,16 @@
       </path>
     </symbol>
   </svg>
+  <button 
+    id="navToggle"
+    class="toggle mobile" 
+    aria-label="" 
+    aria-pressed=""
+  >
+    <svg width="32" height="32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <use href="#icon-menu"></use>
+    </svg>
+  </button>
   <h1>Michanoku Gamestore</h1>
   <nav>
     <a href="/">Home</a>
@@ -27,8 +48,13 @@
     <a href="/platforms">Platforms</a>
     <a href="/developers">Developers</a>
   </nav>
-  <button id="themeToggle" class="theme-toggle">
-    <svg width="32" height="32">
+  <button 
+    id="themeToggle" 
+    class="toggle theme-toggle" 
+    aria-label="<%= theme === 'dark' ? 'Switch to light mode': 'Switch to dark mode' %>" 
+    aria-pressed="<%= theme === 'dark' %>"
+  >
+    <svg width="32" height="32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <use href="#icon-<%= theme %>"></use>
     </svg>
   </button>
