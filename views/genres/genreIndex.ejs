@@ -4,8 +4,12 @@
 
   <body>
     <%- include('../partials/header') %>
-      <div class="site-content">
-        <h2>Genres</h2>
+      <div class="site-content responsive-container">
+
+        <div class="list">
+          <div class="list-header"><h2>Genres</h2></div>
+
+
         <% if (genres && genres.length> 0) { %>
           <% genres.forEach((genre)=> { %>
             <div class="genre">
@@ -17,10 +21,10 @@
                 <a href="/genres/edit/<%= genre.genre_id %>">Edit</a>
               </div>
             </div>
-            <% }) %>
-              <% } %>
-                <hr>
-                <a href="/genres/add">Add</a>
+          <% }) %>
+        <% } %>
+       </div>
+        <a href="/genres/add">Add</a>
       </div>
       <%- include('../partials/footer') %>
   </body>
