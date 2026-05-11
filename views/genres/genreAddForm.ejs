@@ -4,13 +4,17 @@
 
   <body>
     <%- include('../partials/header') %>
-      <div class="site-content">
-        <h2><%- title %></h2>
-        <%- include("../partials/errors.ejs") %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
           <form method="post" action="/genres/add">
             <input type="text" name="name" placeolder="Genre" required />
-            <button type="submit">Submit</button>
+            <button type="submit" class="button primary big">Submit</button>
           </form>
+        </div>
       </div>
       <%- include('../partials/footer') %>
   </body>

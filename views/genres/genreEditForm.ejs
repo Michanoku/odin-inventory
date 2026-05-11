@@ -4,16 +4,25 @@
 
   <body>
     <%- include('../partials/header') %>
-      <div class="site-content">
-        <h2><%- title %></h2>
-        <%- include("../partials/errors.ejs") %>
+      <div class="site-content" responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
           <form class="confirm-form" method="post" action="/genres/edit/<%= genre.genre_id %>">
+            <div class="flex-row">
             <input type="text" name="name" placeolder="Genre" value="<%= genre.name %>" required />
-            <button type="submit">Submit</button>
+            <button type="submit" class="button primary big">Submit</button>
+          </div>
           </form>
+          <hr>
           <form class="confirm-form" method="post" action="/genres/delete/<%= genre.genre_id %>">
-            <button type="submit">Delete</button>
+            <div class="flex-row center">
+              <button type="submit" class="button accent big">Delete</button>
+            </div>
           </form>
+        </div>
       </div>
       <%- include('../partials/footer') %>
         <script type="text/javascript" src="/scripts/formConfirm.js"></script>
