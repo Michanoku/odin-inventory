@@ -29,7 +29,7 @@ const postNewGenre = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const genres = await db.getAllGenres();
-      return res.status(400).render("/", {
+      return res.status(400).render("genres/genreIndex", {
         title: "Genres",
         genres: genres,
         errors: errors.array(),
@@ -52,7 +52,7 @@ const postEditGenre = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const genre = await db.readGenre(req.params.id);
-      return res.status(400).render("/genreEditForm", {
+      return res.status(400).render("genres/genreEditForm", {
         title: "Edit Genre",
         genre: genre,
         errors: errors.array(),

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2>Developers</h2>
+            <a href="/developers/add" class="button primary big">+ Add</a>
+          </div>
+          <ul class="list-content">
+            <% if (devs && devs.length> 0) { %>
+              <% devs.forEach((dev)=> { %>
+                <li>
+                  <a href="/developers/edit/<%= dev.developer_id %>" class="item">
+                    <div>
+                      <%= dev.name %>
+                    </div>
+                    <div class="amount">(<%= dev.game_count %> games)</div>
+                    <div class="edit">✎</div>
+                  </a>
+                </li>
+              <% }) %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+  </body>
+</html>
