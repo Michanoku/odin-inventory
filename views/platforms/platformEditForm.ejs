@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content" responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
+          <form class="confirm-form" method="post" action="/platforms/edit/<%= platform.platform_id %>">
+            <div class="flex-row">
+            <input type="text" name="name" placeolder="Platform" value="<%= platform.name %>" required />
+            <button type="submit" class="button primary big">Submit</button>
+          </div>
+          </form>
+          <hr>
+          <form class="confirm-form" method="post" action="/platforms/delete/<%= platform.platform_id %>">
+            <div class="flex-row center">
+              <button type="submit" class="button accent big">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+        <script type="text/javascript" src="/scripts/formConfirm.js"></script>
+  </body>
+
+</html>

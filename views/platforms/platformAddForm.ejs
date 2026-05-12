@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
+          <form method="post" action="/platforms/add">
+            <input type="text" name="name" placeolder="Platform" required />
+            <button type="submit" class="button primary big">Submit</button>
+          </form>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+  </body>
+
+</html>

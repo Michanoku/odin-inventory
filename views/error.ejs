@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= theme %>">
 <%- include('partials/head') %>
 
   <body>
     <%- include('partials/header') %>
-      <div>
-        <%= errorTitle %>
-      </div>
-      <div>
-        <%= errorMessage %>
+      <div class="site-content">
+        <div>
+          <%= errorTitle %>
+        </div>
+        <div>
+          <%= errorMessage %>
+        </div>
       </div>
       <%- include('partials/footer') %>
   </body>
