@@ -11,7 +11,7 @@ const validateGenre = [
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Genre contains invalid characters.")
     .isLength({ max: 32 })
-    .withMessage(`Genre must not be longer than 32 characters.`),
+    .withMessage("Genre must not be longer than 32 characters."),
 ];
 
 const getAllGenres = async (req, res) => {

@@ -11,7 +11,7 @@ const validatePlatform = [
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Platform contains invalid characters.")
     .isLength({ max: 32 })
-    .withMessage(`Platform must not be longer than 32 characters.`),
+    .withMessage("Platform must not be longer than 32 characters."),
 ];
 
 const getAllPlatforms = async (req, res) => {
