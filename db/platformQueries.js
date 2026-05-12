@@ -26,21 +26,21 @@ async function createPlatform(name) {
 
 async function readPlatform(id) {
   const { rows } = await pool.query(
-    "SELECT * FROM platforms WHERE platform_id = $1",
+    "SELECT * FROM platforms WHERE platform_id = $1;",
     [id],
   );
   return rows[0];
 }
 
 async function updatePlatform(platform) {
-  await pool.query("UPDATE platforms SET name = $1 WHERE platform_id = $2", [
+  await pool.query("UPDATE platforms SET name = $1 WHERE platform_id = $2;", [
     platform.name,
     platform.id,
   ]);
 }
 
 async function deletePlatform(id) {
-  await pool.query("DELETE FROM platforms WHERE platform_id = $1", [id]);
+  await pool.query("DELETE FROM platforms WHERE platform_id = $1;", [id]);
 }
 
 module.exports = {

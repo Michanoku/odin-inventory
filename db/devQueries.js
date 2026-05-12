@@ -23,26 +23,26 @@ async function getAllDevs() {
 }
 
 async function createDev(name) {
-  await pool.query("INSERT INTO developers (name) VALUES ($1)", [name]);
+  await pool.query("INSERT INTO developers (name) VALUES ($1);", [name]);
 }
 
 async function readDev(id) {
   const { rows } = await pool.query(
-    "SELECT * FROM developers WHERE developer_id = $1",
+    "SELECT * FROM developers WHERE developer_id = $1;",
     [id],
   );
   return rows[0];
 }
 
 async function updateDev(developer) {
-  await pool.query("UPDATE developers SET name = $1 WHERE developer_id = $2", [
+  await pool.query("UPDATE developers SET name = $1 WHERE developer_id = $2;", [
     developer.name,
     developer.id,
   ]);
 }
 
 async function deleteDev(id) {
-  await pool.query("DELETE FROM developers WHERE developer_id = $1", [id]);
+  await pool.query("DELETE FROM developers WHERE developer_id = $1;", [id]);
 }
 
 module.exports = {

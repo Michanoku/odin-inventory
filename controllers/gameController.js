@@ -3,7 +3,7 @@ const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/gameQueries");
 
 const validateGame = [
-  body("name")
+  body("title")
     .trim()
     .notEmpty()
     .withMessage("Title is required.")
@@ -65,7 +65,7 @@ const postNewGame = [
         errors: errors.array(),
       });
     }
-    const { name, developerId, genreIds, platformIds } = matchedData(req);
+    const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
       const games = await db.getAllGames();
@@ -75,7 +75,7 @@ const postNewGame = [
         errors: dbErrors,
       });
     }
-    await db.createGame({ name, developerId, genreIds, platformIds });
+    await db.createGame({ title, developerId, genreIds, platformIds });
     res.redirect("/games");
   },
 ];
@@ -97,7 +97,7 @@ const postEditGame = [
         errors: errors.array(),
       });
     }
-    const { name, developerId, genreIds, platformIds } = matchedData(req);
+    const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
       const games = await db.getAllGames();
@@ -107,7 +107,7 @@ const postEditGame = [
         errors: dbErrors,
       });
     }
-    await db.updateGame({ id: req.params.id, name, developerId, genreIds, platformIds });
+    await db.updateGame({ id: req.params.id, title, developerId, genreIds, platformIds });
     res.redirect("/games");
   },
 ];
