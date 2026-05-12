@@ -10,8 +10,8 @@ const validateDev = [
     .bail()
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Developer contains invalid characters.")
-    .isLength({ max: 32 })
-    .withMessage(`Developer must not be longer than 32 characters.`),
+    .isLength({ max: 64 })
+    .withMessage(`Developer must not be longer than 64 characters.`),
 ];
 
 const getAllDevs = async (req, res) => {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2>Games</h2>
+            <a href="/games/add" class="button primary big">+ Add</a>
+          </div>
+          <ul class="list-content">
+            <% if (games && games.length> 0) { %>
+              <% games.forEach((game)=> { %>
+                <li>
+                  <a href="/games/edit/<%= game.game_id %>" class="item">
+                    <div>
+                      <%= game.title %>
+                    </div>
+                    <div class="developer"><%= game.developer %></div>
+                    <div class="result-list">
+                      <% game.genres.forEach((genre)=> { %>
+                        <div><%= genre %></div>
+                      <%  }); %>
+                    </div>
+                    <div class="result-list">
+                      <% game.platform.forEach((platform)=> { %>
+                        <div><%= platform %></div>
+                      <%  }); %>
+                    </div>
+                    <div class="edit">✎</div>
+                  </a>
+                </li>
+              <% }) %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+  </body>
+</html>

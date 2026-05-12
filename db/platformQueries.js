@@ -5,6 +5,7 @@ async function getAllPlatforms() {
     SELECT
     g.platform_id,
     g.name,
+    g.abbrev,
     COUNT(gg.game_id) AS game_count
 
     FROM platforms g
@@ -14,14 +15,15 @@ async function getAllPlatforms() {
 
     GROUP BY
     g.platform_id,
-    g.name
+    g.name,
+    g.abbrev
 
     ORDER BY g.name ASC;`);
   return rows;
 }
 
-async function createPlatform(name) {
-  await pool.query("INSERT INTO platforms (name) VALUES ($1)", [name]);
+async function createPlatform(platform) {
+  await pool.query("INSERT INTO platforms (name, abbrev) VALUES ($1, $2)", [platform.name, platform.abbrev]);
 }
 
 async function readPlatform(id) {
@@ -33,8 +35,9 @@ async function readPlatform(id) {
 }
 
 async function updatePlatform(platform) {
-  await pool.query("UPDATE platforms SET name = $1 WHERE platform_id = $2;", [
+  await pool.query("UPDATE platforms SET name = $1, abbrev = $2 WHERE platform_id = $3;", [
     platform.name,
+    platform.abbrev,
     platform.id,
   ]);
 }

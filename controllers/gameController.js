@@ -1,6 +1,9 @@
 const { ResultWithContextImpl } = require("express-validator/lib/chain");
 const { body, validationResult, matchedData } = require("express-validator");
-const db = require("../db/gameQueries");
+const gameDb = require("../db/gameQueries");
+const devDb = require("../db/devQueries");
+const genreDb = require("../db/genreQueries");
+const platformDb = require("../db/platformQueries");
 
 const validateGame = [
   body("title")
@@ -10,8 +13,8 @@ const validateGame = [
     .bail()
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Title contains invalid characters.")
-    .isLength({ max: 64 })
-    .withMessage("Title must not be longer than 64 characters."),
+    .isLength({ max: 255 })
+    .withMessage("Title must not be longer than 255 characters."),
   body("genreIds")
     .isArray({ min: 1 })
     .withMessage("Select at least one genre."),
@@ -25,18 +28,18 @@ const validateGame = [
 
 const validateEntries = async (developerId, genreIds, platformIds) => {
   const dbErrors = [];
-  const devEntry = await db.validateEntry("developer", developerId);
+  const devEntry = await devDb.readDev(developerId);
   if (!devEntry) {
     dbErrors.push({ msg: "Developer not found." });
   }
   for (const id of genreIds) {
-    const genreEntry = await db.validateEntry("genre", id);
+    const genreEntry = await genreDb.readGenre(id);
     if (!genreEntry) {
       dbErrors.push({ msg: "Genre not found."});
     }
   };
   for (const id of platformIds) {
-    const platformEntry = await db.validateEntry("platform", id);
+    const platformEntry = await platformDb.readPlatform(id);
     if (!platformEntry) {
       dbErrors.push({ msg: "Platform not found." });
     }
@@ -45,12 +48,15 @@ const validateEntries = async (developerId, genreIds, platformIds) => {
 };
 
 const getAllGames = async (req, res) => {
-  const devs = await db.getAllGames();
+  const games = await gameDb.getAllGames();
   res.render("games/gameIndex", { title: "Games", games: games });
 };
 
 const getNewGame = async (req, res) => {
-  res.render("games/gameAddForm", { title: "Add Game" });
+  const genres = await genreDb.getAllGenres();
+  const platforms = await platformDb.getAllPlatforms();
+  const developers = await devDb.getAllDevs();
+  res.render("games/gameAddForm", { title: "Add Game", genres: genres, platforms: platforms, developers: developers });
 };
 
 const postNewGame = [
@@ -58,7 +64,7 @@ const postNewGame = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const games = await db.getAllGames();
+      const games = await gameDb.getAllGames();
       return res.status(400).render("/", {
         title: "Games",
         games: games,
@@ -68,20 +74,20 @@ const postNewGame = [
     const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
-      const games = await db.getAllGames();
+      const games = await gameDb.getAllGames();
       return res.status(400).render("/", {
         title: "Games",
         games: games,
         errors: dbErrors,
       });
     }
-    await db.createGame({ title, developerId, genreIds, platformIds });
+    await gameDb.createGame({ title, developerId, genreIds, platformIds });
     res.redirect("/games");
   },
 ];
 
 const getEditGame = async (req, res) => {
-  const game = await db.readGame(req.params.id);
+  const game = await gameDb.readGame(req.params.id);
   res.render("games/gameEditForm", { title: "Edit Game", game: game });
 };
 
@@ -90,7 +96,7 @@ const postEditGame = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const game = await db.readGame(req.params.id);
+      const game = await gameDb.readGame(req.params.id);
       return res.status(400).render("games/gameEditForm", {
         title: "Edit Game",
         game: game,
@@ -100,20 +106,20 @@ const postEditGame = [
     const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
-      const games = await db.getAllGames();
+      const games = await gameDb.getAllGames();
       return res.status(400).render("/", {
         title: "Games",
         games: games,
         errors: dbErrors,
       });
     }
-    await db.updateGame({ id: req.params.id, title, developerId, genreIds, platformIds });
+    await gameDb.updateGame({ id: req.params.id, title, developerId, genreIds, platformIds });
     res.redirect("/games");
   },
 ];
 
 const postDeleteGame = async (req, res) => {
-  const dev = await db.deleteGame(req.params.id);
+  const dev = await gameDb.deleteGame(req.params.id);
   res.redirect("/games");
 };
 

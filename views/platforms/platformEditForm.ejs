@@ -12,7 +12,8 @@
           <%- include("../partials/errors.ejs") %>
           <form class="confirm-form" method="post" action="/platforms/edit/<%= platform.platform_id %>">
             <div class="flex-row">
-            <input type="text" name="name" placeolder="Platform" value="<%= platform.name %>" required />
+            <input type="text" name="name" placeholder="Platform" value="<%= platform.name %>" maxlength="64" required />
+            <input type="text" name="abbrev" placeholder="Abbreviation" value="<%= platform.abbrev %>" maxlength="8" required />
             <button type="submit" class="button primary big">Submit</button>
           </div>
           </form>

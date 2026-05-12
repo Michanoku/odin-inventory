@@ -135,6 +135,28 @@ input[type="text"] {
   border-radius: 0.375rem;
 }
 
+.formBig {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.checkbox-group {
+  border: 1px solid var(--color-text-muted);
+  padding: 1rem;
+  border-radius: 0.375rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkbox-group legend {
+  padding: 0 0.5rem;
+  font-weight: bold;
+}
+
 .toggle {
   background: transparent;
   border: 0;

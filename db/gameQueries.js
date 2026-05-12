@@ -52,14 +52,17 @@ async function createGame(game) {
 
 async function readGame(id) {
     const { rows } = await pool.query(`
-
 SELECT
   g.game_id,
   g.title,
   d.name AS developer,
+  d.developer_id,
 
   ARRAY_AGG(DISTINCT ge.name) AS genres,
-  ARRAY_AGG(DISTINCT p.name) AS platforms
+  ARRAY_AGG(DISTINCT p.name) AS platforms,
+
+  ARRAY_AGG(DISTINCT ge.genre_id) AS genre_ids,
+  ARRAY_AGG(DISTINCT p.platform_id) AS platform_ids
 
 FROM games g
 
@@ -78,7 +81,14 @@ LEFT JOIN game_platform gp
 LEFT JOIN platforms p
   ON gp.platform_id = p.platform_id
 
-WHERE game_id = $1;
+WHERE g.game_id = $1
+
+GROUP BY
+  g.game_id,
+  g.title,
+  d.name,
+  d.developer_id;
+
 `, [id]);
   return rows[0];
 }

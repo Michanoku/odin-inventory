@@ -10,8 +10,17 @@ const validatePlatform = [
     .bail()
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Platform contains invalid characters.")
-    .isLength({ max: 32 })
+    .isLength({ max: 64 })
     .withMessage("Platform must not be longer than 32 characters."),
+  body("abbrev")
+    .trim()
+    .notEmpty()
+    .withMessage("Abbreviation is required.")
+    .bail()
+    .matches(/^[\p{L}\d '&/-]+$/u)
+    .withMessage("Abbreviation contains invalid characters.")
+    .isLength({ max: 8 })
+    .withMessage("Abbreviation must not be longer than 8 characters.")
 ];
 
 const getAllPlatforms = async (req, res) => {
@@ -35,8 +44,8 @@ const postNewPlatform = [
         errors: errors.array(),
       });
     }
-    const { name } = matchedData(req);
-    await db.createPlatform(name);
+    const { name, abbrev } = matchedData(req);
+    await db.createPlatform({ name, abbrev });
     res.redirect("/platforms");
   },
 ];
@@ -58,8 +67,8 @@ const postEditPlatform = [
         errors: errors.array(),
       });
     }
-    const { name } = matchedData(req);
-    await db.updatePlatform({ id: req.params.id, name });
+    const { name, abbrev } = matchedData(req);
+    await db.updatePlatform({ id: req.params.id, name, abbrev });
     res.redirect("/platforms");
   },
 ];

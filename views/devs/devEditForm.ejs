@@ -12,7 +12,7 @@
           <%- include("../partials/errors.ejs") %>
           <form class="confirm-form" method="post" action="/developers/edit/<%= dev.developer_id %>">
             <div class="flex-row">
-            <input type="text" name="name" placeolder="Developer" value="<%= dev.name %>" required />
+            <input type="text" name="name" placeholder="Developer" value="<%= dev.name %>" maxlength="64" required />
             <button type="submit" class="button primary big">Submit</button>
           </div>
           </form>

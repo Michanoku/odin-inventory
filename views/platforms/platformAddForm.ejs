@@ -11,7 +11,8 @@
           </div>
           <%- include("../partials/errors.ejs") %>
           <form method="post" action="/platforms/add">
-            <input type="text" name="name" placeolder="Platform" required />
+            <input type="text" name="name" placeholder="Platform" maxlength="64" required />
+            <input type="text" name="abbrev" placeholder="Abbreviation" maxlength="8" required />
             <button type="submit" class="button primary big">Submit</button>
           </form>
         </div>

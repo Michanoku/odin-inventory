@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
+          <form class="formBig" method="post" action="/games/add">
+            <input type="text" name="title" placeholder="Title" maxlength="255" required />
+            <select name="developerId" required >
+                <option value="" disabled selected>
+                  Select a developer
+                </option>
+              <% developers.forEach((developer) => { %>
+                <option value="<%= developer.developer_id %>"><%= developer.name %></option>
+              <%  }); %>
+            </select>
+            <fieldset class="checkbox-group">
+              <legend>Genres</legend>
+              <% genres.forEach((genre) => { %>
+                 <label>
+                  <input type="checkbox" name="genreIds" value="<%= genre.genre_id %>">
+                  <%= genre.name %>
+                </label>
+              <%  }); %>
+            </fieldset>
+            <fieldset class="checkbox-group">
+              <legend>Platforms</legend>
+              <% platforms.forEach((platform) => { %>
+                 <label>
+                  <input type="checkbox" name=platformIds" value="<%= platform.platform_id %>">
+                  <%= platform.abbrev %>
+                </label>
+              <%  }); %>
+            </fieldset>
+            <button type="submit" class="button primary big">Submit</button>
+          </form>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+  </body>
+
+</html>

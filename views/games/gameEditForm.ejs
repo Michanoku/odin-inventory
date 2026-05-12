@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+<%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/header') %>
+      <div class="site-content" responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%- title %></h2>
+          </div>
+          <%- include("../partials/errors.ejs") %>
+          <form class="confirm-form" method="post" action="/games/edit/<%= game.game_id %>">
+            <div class="flex-row">
+            <input type="text" name="title" placeholder="Title" value="<%= game.title %>" maxlength="255" required />
+            <select name="developerId" required >
+              <% developers.forEach((developer) => { %>
+                <option value="<%= developer.developer_id %>" <%= game.developer_id === developer.developer_id ? "checked" : "" %>><%= developer.name %></option>
+              <%  }); %>
+            </select>
+            <select name="genreIds" required multiple>
+              <% genres.forEach((genre) => { %>
+                <option value="<%= genre.genre_id %>" <%= game.genre_ids.includes(genre.genre_id) ? "checked" : "" %>><%= genre.name %></option>
+              <%  }); %>
+            </select>
+            <select name="platformIds" required multiple>
+              <% platforms.forEach((platform) => { %>
+                <option value="<%= platform.platform_id %>" <%= game.platform_ids.includes(platform.platform_id) ? "checked" : "" %>><%= platform.abbrev %></option>
+              <%  }); %>
+            </select>
+            <button type="submit" class="button primary big">Submit</button>
+          </form>
+          <hr>
+          <form class="confirm-form" method="post" action="/games/delete/<%= game.game_id %>">
+            <div class="flex-row center">
+              <button type="submit" class="button accent big">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <%- include('../partials/footer') %>
+        <script type="text/javascript" src="/scripts/formConfirm.js"></script>
+  </body>
+
+</html>
