@@ -48,7 +48,8 @@
 }
 
 input,
-button {
+button,
+select {
   border: none;
   outline: none;
   background: transparent;
@@ -129,17 +130,31 @@ hr {
 }
 
 input[type="text"] {
-  font-size: 1.25rem;
   padding: calc(0.5rem - 1px) 0.725rem;
   border: 1px solid var(--color-text);
   border-radius: 0.375rem;
+}
+
+select {
+  font-size: 1rem;
+  padding: calc(0.5rem - 1px) 0.725rem;
+  border: 1px solid var(--color-text);
+  border-radius: 0.375rem;
+}
+
+.formSmall {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .formBig {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  align-items: flex-start;
+  align-items: stretch;
+  width: fit-content;
+  margin-bottom: 1rem;
 }
 
 .checkbox-group {
@@ -274,10 +289,11 @@ input[type="text"] {
 }
 
 .item {
-  display: flex;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 2fr 1fr auto;
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   color: var(--color-text-muted);
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
@@ -297,15 +313,29 @@ input[type="text"] {
 
   transform: scale(1.10);
 
-  z-index: 10;
+  z-index: 20;
 }
-
+.item-title {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+.item-subtitle {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
 li:last-child > .item {
   border-bottom: none;
 }
 
+.amount {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
 .edit { 
   color: transparent;
+  grid-column: 3/4;
+  grid-row: 1/2;
 }
 .item:hover .edit {
   color: var(--text-color-muted);
@@ -313,8 +343,6 @@ li:last-child > .item {
 
 @media (max-width: 991px) {
   nav {
-    position: absolute;
-
     flex-direction: column;
     background-color: var(--color-surface);
     border-radius: 0.375rem;
@@ -323,6 +351,7 @@ li:last-child > .item {
 
     /* Mobile */
     position: absolute;
+    z-index: 10;
     top: 7rem;
     left: 0;
     opacity: 0;

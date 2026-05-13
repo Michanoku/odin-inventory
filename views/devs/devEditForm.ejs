@@ -10,11 +10,9 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form class="confirm-form" method="post" action="/developers/edit/<%= dev.developer_id %>">
-            <div class="flex-row">
+          <form class="confirm-form formSmall" method="post" action="/developers/edit/<%= dev.developer_id %>">
             <input type="text" name="name" placeholder="Developer" value="<%= dev.name %>" maxlength="64" required />
             <button type="submit" class="button primary big">Submit</button>
-          </div>
           </form>
           <hr>
           <form class="confirm-form" method="post" action="/developers/delete/<%= dev.developer_id %>">

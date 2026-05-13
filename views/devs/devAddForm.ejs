@@ -10,7 +10,7 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form method="post" action="/developers/add">
+          <form class="formSmall" method="post" action="/developers/add">
             <input type="text" name="name" placeholder="Developer" maxlength="64" required/>
             <button type="submit" class="button primary big">Submit</button>
           </form>

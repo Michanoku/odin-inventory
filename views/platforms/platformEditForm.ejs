@@ -10,12 +10,10 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form class="confirm-form" method="post" action="/platforms/edit/<%= platform.platform_id %>">
-            <div class="flex-row">
+          <form class="confirm-form formSmall" method="post" action="/platforms/edit/<%= platform.platform_id %>">
             <input type="text" name="name" placeholder="Platform" value="<%= platform.name %>" maxlength="64" required />
             <input type="text" name="abbrev" placeholder="Abbreviation" value="<%= platform.abbrev %>" maxlength="8" required />
             <button type="submit" class="button primary big">Submit</button>
-          </div>
           </form>
           <hr>
           <form class="confirm-form" method="post" action="/platforms/delete/<%= platform.platform_id %>">
