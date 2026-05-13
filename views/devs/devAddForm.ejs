@@ -10,10 +10,13 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form class="formSmall" method="post" action="/developers/add">
-            <input type="text" name="name" placeholder="Developer" maxlength="64" required/>
-            <button type="submit" class="button primary big">Submit</button>
-          </form>
+            <form class="formSmall" method="post" action="/developers/add">
+              <div class="label-input">
+                <label for="nameInput">Name</label>
+                <input type="text" id="nameInput" name="name" placeholder="Developer" maxlength="64" required />
+              </div>
+              <button type="submit" class="button primary big">Submit</button>
+            </form>
         </div>
       </div>
       <%- include('../partials/footer') %>

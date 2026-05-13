@@ -10,16 +10,20 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form class="confirm-form formSmall" method="post" action="/developers/edit/<%= dev.developer_id %>">
-            <input type="text" name="name" placeholder="Developer" value="<%= dev.name %>" maxlength="64" required />
-            <button type="submit" class="button primary big">Submit</button>
-          </form>
-          <hr>
-          <form class="confirm-form" method="post" action="/developers/delete/<%= dev.developer_id %>">
-            <div class="flex-row center">
-              <button type="submit" class="button accent big">Delete</button>
-            </div>
-          </form>
+            <form class="confirm-form formSmall" method="post" action="/developers/edit/<%= dev.developer_id %>">
+              <div class="label-input">
+                <label for="nameInput">Name</label>
+                <input type="text" id="nameInput" name="name" placeholder="Developer" value="<%= dev.name %>"
+                  maxlength="64" required />
+              </div>
+              <button type="submit" class="button primary big">Submit</button>
+            </form>
+            <hr>
+            <form class="confirm-form" method="post" action="/developers/delete/<%= dev.developer_id %>">
+              <div class="flex-row center">
+                <button type="submit" class="button accent big">Delete</button>
+              </div>
+            </form>
         </div>
       </div>
       <%- include('../partials/footer') %>

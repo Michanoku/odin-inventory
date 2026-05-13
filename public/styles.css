@@ -144,10 +144,21 @@ select {
   border-radius: 0.375rem;
 }
 
+.label-input > label {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
 .formSmall {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-items: flex-end;
+}
+
+.gameTitle {
+  font-weight: 700;
 }
 
 .formBig {

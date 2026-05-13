@@ -10,32 +10,50 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form class="confirm-form" method="post" action="/games/edit/<%= game.game_id %>">
-            <div class="flex-row">
-            <input type="text" name="title" placeholder="Title" value="<%= game.title %>" maxlength="255" required />
-            <select name="developerId" required >
-              <% developers.forEach((developer) => { %>
-                <option value="<%= developer.developer_id %>" <%= game.developer_id === developer.developer_id ? "checked" : "" %>><%= developer.name %></option>
-              <%  }); %>
-            </select>
-            <select name="genreIds" required multiple>
-              <% genres.forEach((genre) => { %>
-                <option value="<%= genre.genre_id %>" <%= game.genre_ids.includes(genre.genre_id) ? "checked" : "" %>><%= genre.name %></option>
-              <%  }); %>
-            </select>
-            <select name="platformIds" required multiple>
-              <% platforms.forEach((platform) => { %>
-                <option value="<%= platform.platform_id %>" <%= game.platform_ids.includes(platform.platform_id) ? "checked" : "" %>><%= platform.abbrev %></option>
-              <%  }); %>
-            </select>
-            <button type="submit" class="button primary big">Submit</button>
-          </form>
-          <hr>
-          <form class="confirm-form" method="post" action="/games/delete/<%= game.game_id %>">
-            <div class="flex-row center">
-              <button type="submit" class="button accent big">Delete</button>
-            </div>
-          </form>
+            <form id="editForm" class="confirm-form formBig" method="post" action="/games/edit/<%= game.game_id %>">
+              <div class="label-input">
+                <label for="titleInput">Title</label>
+                <input type="text" id="titleInput" name="title" placeholder="Title" value="<%= game.title %>"
+                  maxlength="255" required />
+              </div>
+              <div class="label-input">
+                <label for="developerInput">Developer</label>
+                <select name="developerId" id="developerInput" required>
+                  <% developers.forEach((developer)=> { %>
+                    <option value="<%= developer.developer_id %>" <%=game.developer_id===developer.developer_id
+                      ? "checked" : "" %>><%= developer.name %>
+                    </option>
+                    <% }); %>
+                </select>
+              </div>
+              <fieldset class="checkbox-group">
+                <legend>Genres</legend>
+                <% genres.forEach((genre)=> { %>
+                  <label>
+                    <input type="checkbox" name="genreIds" value="<%= genre.genre_id %>"
+                      <%=game.genre_ids.includes(genre.genre_id) ? "checked" : "" %>>
+                    <%= genre.name %>
+                  </label>
+                  <% }); %>
+              </fieldset>
+              <fieldset class="checkbox-group">
+                <legend>Platforms</legend>
+                <% platforms.forEach((platform)=> { %>
+                  <label>
+                    <input type="checkbox" name="platformIds" value="<%= platform.platform_id %>"
+                      <%=game.platform_ids.includes(platform.platform_id) ? "checked" : "" %>>
+                    <%= platform.abbrev %>
+                  </label>
+                  <% }); %>
+              </fieldset>
+            </form>
+            <button type="submit" form="editForm" class="button primary big">Submit</button>
+            <hr>
+            <form class="confirm-form" method="post" action="/games/delete/<%= game.game_id %>">
+              <div class="flex-row center">
+                <button type="submit" class="button accent big">Delete</button>
+              </div>
+            </form>
         </div>
       </div>
       <%- include('../partials/footer') %>

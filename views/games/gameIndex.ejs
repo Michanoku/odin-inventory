@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="<%= theme %>">
 <%- include('../partials/head') %>
+
   <body>
     <%- include('../partials/header') %>
       <div class="site-content responsive-container">
@@ -14,28 +15,35 @@
               <% games.forEach((game)=> { %>
                 <li>
                   <a href="/games/edit/<%= game.game_id %>" class="item game">
-                    <div>
+                    <div class="gameTitle">
                       <%= game.title %>
                     </div>
-                    <div class="developer"><%= game.developer %></div>
+                    <div class="developer">
+                      <%= game.developer %>
+                    </div>
                     <div class="genre-list result-list">
                       <% game.genres.forEach((genre)=> { %>
-                        <div><%= genre %></div>
-                      <%  }); %>
+                        <div>
+                          <%= genre %>
+                        </div>
+                        <% }); %>
                     </div>
                     <div class="platform-list result-list">
                       <% game.platforms.forEach((platform)=> { %>
-                        <div><%= platform %></div>
-                      <%  }); %>
+                        <div>
+                          <%= platform %>
+                        </div>
+                        <% }); %>
                     </div>
                     <div class="edit game">✎</div>
                   </a>
                 </li>
-              <% }) %>
-            <% } %>
+                <% }) %>
+                  <% } %>
           </ul>
         </div>
       </div>
       <%- include('../partials/footer') %>
   </body>
+
 </html>

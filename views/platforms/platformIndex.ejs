@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="<%= theme %>">
 <%- include('../partials/head') %>
+
   <body>
     <%- include('../partials/header') %>
       <div class="site-content responsive-container">
@@ -14,17 +15,20 @@
               <% platforms.forEach((platform)=> { %>
                 <li>
                   <a href="/platforms/edit/<%= platform.platform_id %>" class="item">
-                    <div class="item-title"><%= platform.name %></div>
+                    <div class="item-title">
+                      <%= platform.name %>
+                    </div>
                     <div class="item-subtitle">(<%= platform.abbrev %>)</div>
                     <div class="amount">(<%= platform.game_count %> games)</div>
                     <div class="edit">✎</div>
                   </a>
                 </li>
-              <% }) %>
-            <% } %>
+                <% }) %>
+                  <% } %>
           </ul>
         </div>
       </div>
       <%- include('../partials/footer') %>
   </body>
+
 </html>

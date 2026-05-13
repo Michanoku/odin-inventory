@@ -10,10 +10,13 @@
             <h2><%- title %></h2>
           </div>
           <%- include("../partials/errors.ejs") %>
-          <form method="post" action="/genres/add">
-            <input type="text" name="name" placeholder="Genre" required />
-            <button type="submit" class="button primary big">Submit</button>
-          </form>
+            <form method="post" class="formSmall" action="/genres/add">
+              <div class="label-input">
+                <label for="nameInput">Name</label>
+                <input type="text" id="nameInput" name="name" placeholder="Genre" required />
+              </div>
+              <button type="submit" class="button primary big">Submit</button>
+            </form>
         </div>
       </div>
       <%- include('../partials/footer') %>
