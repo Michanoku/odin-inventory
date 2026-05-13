@@ -13,22 +13,22 @@
             <% if (games && games.length> 0) { %>
               <% games.forEach((game)=> { %>
                 <li>
-                  <a href="/games/edit/<%= game.game_id %>" class="item">
+                  <a href="/games/edit/<%= game.game_id %>" class="item game">
                     <div>
                       <%= game.title %>
                     </div>
                     <div class="developer"><%= game.developer %></div>
-                    <div class="result-list">
+                    <div class="genre-list result-list">
                       <% game.genres.forEach((genre)=> { %>
                         <div><%= genre %></div>
                       <%  }); %>
                     </div>
-                    <div class="result-list">
-                      <% game.platform.forEach((platform)=> { %>
+                    <div class="platform-list result-list">
+                      <% game.platforms.forEach((platform)=> { %>
                         <div><%= platform %></div>
                       <%  }); %>
                     </div>
-                    <div class="edit">✎</div>
+                    <div class="edit game">✎</div>
                   </a>
                 </li>
               <% }) %>

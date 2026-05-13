@@ -16,11 +16,11 @@ const validateGame = [
     .isLength({ max: 255 })
     .withMessage("Title must not be longer than 255 characters."),
   body("genreIds")
-    .isArray({ min: 1 })
+    .exists({ values: "falsy" })
     .withMessage("Select at least one genre."),
   body("genreIds.*").isInt(),
   body("platformIds")
-    .isArray({ min: 1 })
+    .exists({ values: "falsy" })
     .withMessage("Select at least one platform."),
   body("platformIds.*").isInt(),
   body("developerId").isInt(),
@@ -53,9 +53,11 @@ const getAllGames = async (req, res) => {
 };
 
 const getNewGame = async (req, res) => {
-  const genres = await genreDb.getAllGenres();
-  const platforms = await platformDb.getAllPlatforms();
-  const developers = await devDb.getAllDevs();
+  const [genres, platforms, developers] = await Promise.all([
+    genreDb.getAllGenres(),
+    platformDb.getAllPlatforms(),
+    devDb.getAllDevs(),
+  ]);
   res.render("games/gameAddForm", { title: "Add Game", genres: genres, platforms: platforms, developers: developers });
 };
 
@@ -64,20 +66,32 @@ const postNewGame = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const games = await gameDb.getAllGames();
-      return res.status(400).render("/", {
-        title: "Games",
-        games: games,
+      const [genres, platforms, developers] = await Promise.all([
+        genreDb.getAllGenres(),
+        platformDb.getAllPlatforms(),
+        devDb.getAllDevs(),
+      ]);
+      return res.status(400).render("games/gameAddForm", {
+        title: "Add Game",
+        genres: genres, 
+        platforms: platforms, 
+        developers: developers,
         errors: errors.array(),
       });
     }
     const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
-      const games = await gameDb.getAllGames();
-      return res.status(400).render("/", {
-        title: "Games",
-        games: games,
+      const [genres, platforms, developers] = await Promise.all([
+        genreDb.getAllGenres(),
+        platformDb.getAllPlatforms(),
+        devDb.getAllDevs(),
+      ]);
+      return res.status(400).render("games/gameAddForm", {
+        title: "Add Game",
+        genres: genres, 
+        platforms: platforms, 
+        developers: developers,
         errors: dbErrors,
       });
     }
@@ -87,8 +101,13 @@ const postNewGame = [
 ];
 
 const getEditGame = async (req, res) => {
-  const game = await gameDb.readGame(req.params.id);
-  res.render("games/gameEditForm", { title: "Edit Game", game: game });
+  const [game, genres, platforms, developers] = await Promise.all([
+    gameDb.readGame(req.params.id),
+    genreDb.getAllGenres(),
+    platformDb.getAllPlatforms(),
+    devDb.getAllDevs(),
+  ]);
+  res.render("games/gameEditForm", { title: "Edit Game", game: game, genres: genres, platforms: platforms, developers: developers });
 };
 
 const postEditGame = [
@@ -96,21 +115,37 @@ const postEditGame = [
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const game = await gameDb.readGame(req.params.id);
+      const [game, genres, platforms, developers] = await Promise.all([
+        gameDb.readGame(req.params.id),
+        genreDb.getAllGenres(),
+        platformDb.getAllPlatforms(),
+        devDb.getAllDevs(),
+      ]);
       return res.status(400).render("games/gameEditForm", {
         title: "Edit Game",
         game: game,
+        genres: genres, 
+        platforms: platforms, 
+        developers: developers,
         errors: errors.array(),
       });
     }
     const { title, developerId, genreIds, platformIds } = matchedData(req);
     const dbErrors = await validateEntries(developerId, genreIds, platformIds);
     if (dbErrors.length > 0) {
-      const games = await gameDb.getAllGames();
-      return res.status(400).render("/", {
-        title: "Games",
-        games: games,
-        errors: dbErrors,
+      const [game, genres, platforms, developers] = await Promise.all([
+        gameDb.readGame(req.params.id),
+        genreDb.getAllGenres(),
+        platformDb.getAllPlatforms(),
+        devDb.getAllDevs(),
+      ]);
+      return res.status(400).render("/games/gameEditForm", {
+        title: "Edit Game",
+        game: game,
+        genres: genres, 
+        platforms: platforms, 
+        developers: developers,
+        errors: errors.array(),
       });
     }
     await gameDb.updateGame({ id: req.params.id, title, developerId, genreIds, platformIds });

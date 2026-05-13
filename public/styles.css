@@ -130,12 +130,14 @@ hr {
 }
 
 input[type="text"] {
+  color: var(--color-text);
   padding: calc(0.5rem - 1px) 0.725rem;
   border: 1px solid var(--color-text);
   border-radius: 0.375rem;
 }
 
 select {
+  color: var(--color-text);
   font-size: 1rem;
   padding: calc(0.5rem - 1px) 0.725rem;
   border: 1px solid var(--color-text);
@@ -292,6 +294,7 @@ select {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 2fr 1fr auto;
+  gap: 0.5rem;
   text-decoration: none;
   font-size: 1.125rem;
   color: var(--color-text-muted);
@@ -304,6 +307,11 @@ select {
 
   position: relative;
   z-index: 0;
+}
+.item.game {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
 }
 .item:hover {
   background-color: var(--color-surface);
@@ -337,8 +345,26 @@ li:last-child > .item {
   grid-column: 3/4;
   grid-row: 1/2;
 }
+.edit.game {
+  grid-column: 2/3;
+}
 .item:hover .edit {
   color: var(--text-color-muted);
+}
+
+.developers {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+.genre-list {
+  grid-column: 1/2;
+  grid-row: 3/4;
+}
+
+.platform-list {
+  grid-column: 1/2;
+  grid-row: 4/5;
 }
 
 @media (max-width: 991px) {
@@ -373,4 +399,25 @@ nav.open {
   .mobile {
     display: none;
   }
+  .item.game {
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  }
+  .edit.game {
+    grid-column: 5/6;
+  }
+  .developers {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+
+  .genre-list {
+    grid-column: 3/4;
+    grid-row: 1/2;
+  }
+
+  .platform-list {
+    grid-column: 4/5;
+    grid-row: 1/2;
+  }
+
 }

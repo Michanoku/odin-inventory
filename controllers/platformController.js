@@ -38,7 +38,7 @@ const postNewPlatform = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const platforms = await db.getAllPlatforms();
-      return res.status(400).render("/", {
+      return res.status(400).render("/platforms/platformAddForm", {
         title: "Platforms",
         platforms: platforms,
         errors: errors.array(),

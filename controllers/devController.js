@@ -29,7 +29,7 @@ const postNewDev = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const devs = await db.getAllDevs();
-      return res.status(400).render("/", {
+      return res.status(400).render("/devs/devAddForm", {
         title: "Developers",
         devs: devs,
         errors: errors.array(),

@@ -9,7 +9,7 @@ SELECT
   d.name AS developer,
 
   ARRAY_AGG(DISTINCT ge.name) AS genres,
-  ARRAY_AGG(DISTINCT p.name) AS platforms
+  ARRAY_AGG(DISTINCT p.abbrev) AS platforms
 
 FROM games g
 
@@ -59,7 +59,7 @@ SELECT
   d.developer_id,
 
   ARRAY_AGG(DISTINCT ge.name) AS genres,
-  ARRAY_AGG(DISTINCT p.name) AS platforms,
+  ARRAY_AGG(DISTINCT p.abbrev) AS platforms,
 
   ARRAY_AGG(DISTINCT ge.genre_id) AS genre_ids,
   ARRAY_AGG(DISTINCT p.platform_id) AS platform_ids

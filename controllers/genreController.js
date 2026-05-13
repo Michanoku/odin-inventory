@@ -29,7 +29,7 @@ const postNewGenre = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const genres = await db.getAllGenres();
-      return res.status(400).render("genres/genreIndex", {
+      return res.status(400).render("genres/genreAddForm", {
         title: "Genres",
         genres: genres,
         errors: errors.array(),
