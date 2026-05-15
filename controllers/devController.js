@@ -36,7 +36,7 @@ const validateEdit = [
       }
 
       return true;
-    })
+    }),
 ];
 
 const validateDelete = [
@@ -51,7 +51,7 @@ const validateDelete = [
       }
 
       return true;
-    })
+    }),
 ];
 
 const getAllDevs = async (req, res) => {

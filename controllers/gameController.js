@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { ResultWithContextImpl } = require("express-validator/lib/chain");
 const { body, validationResult, matchedData } = require("express-validator");
 const gameDb = require("../db/gameQueries");
@@ -5,7 +6,7 @@ const devDb = require("../db/devQueries");
 const genreDb = require("../db/genreQueries");
 const platformDb = require("../db/platformQueries");
 
-const validateGame = [
+const validateAdd = [
   body("title")
     .trim()
     .notEmpty()
@@ -26,6 +27,54 @@ const validateGame = [
   body("developerId").isInt(),
 ];
 
+const validateEdit = [
+  body("title")
+    .trim()
+    .notEmpty()
+    .withMessage("Title is required.")
+    .bail()
+    .matches(/^[\p{L}\d '&/-]+$/u)
+    .withMessage("Title contains invalid characters.")
+    .isLength({ max: 255 })
+    .withMessage("Title must not be longer than 255 characters."),
+  body("genreIds")
+    .exists({ values: "falsy" })
+    .withMessage("Select at least one genre."),
+  body("genreIds.*").isInt(),
+  body("platformIds")
+    .exists({ values: "falsy" })
+    .withMessage("Select at least one platform."),
+  body("platformIds.*").isInt(),
+  body("developerId").isInt(),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    }),
+];
+
+const validateDelete = [
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    }),
+];
+
 const validateEntries = async (developerId, genreIds, platformIds) => {
   const dbErrors = [];
   const devEntry = await devDb.readDev(developerId);
@@ -35,15 +84,15 @@ const validateEntries = async (developerId, genreIds, platformIds) => {
   for (const id of genreIds) {
     const genreEntry = await genreDb.readGenre(id);
     if (!genreEntry) {
-      dbErrors.push({ msg: "Genre not found."});
+      dbErrors.push({ msg: "Genre not found." });
     }
-  };
+  }
   for (const id of platformIds) {
     const platformEntry = await platformDb.readPlatform(id);
     if (!platformEntry) {
       dbErrors.push({ msg: "Platform not found." });
     }
-  };
+  }
   return dbErrors;
 };
 
@@ -58,11 +107,16 @@ const getNewGame = async (req, res) => {
     platformDb.getAllPlatforms(),
     devDb.getAllDevs(),
   ]);
-  res.render("games/gameAddForm", { title: "Add Game", genres: genres, platforms: platforms, developers: developers });
+  res.render("games/gameAddForm", {
+    title: "Add Game",
+    genres: genres,
+    platforms: platforms,
+    developers: developers,
+  });
 };
 
 const postNewGame = [
-  validateGame,
+  validateAdd,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -73,8 +127,8 @@ const postNewGame = [
       ]);
       return res.status(400).render("games/gameAddForm", {
         title: "Add Game",
-        genres: genres, 
-        platforms: platforms, 
+        genres: genres,
+        platforms: platforms,
         developers: developers,
         errors: errors.array(),
       });
@@ -89,8 +143,8 @@ const postNewGame = [
       ]);
       return res.status(400).render("games/gameAddForm", {
         title: "Add Game",
-        genres: genres, 
-        platforms: platforms, 
+        genres: genres,
+        platforms: platforms,
         developers: developers,
         errors: dbErrors,
       });
@@ -107,11 +161,17 @@ const getEditGame = async (req, res) => {
     platformDb.getAllPlatforms(),
     devDb.getAllDevs(),
   ]);
-  res.render("games/gameEditForm", { title: "Edit Game", game: game, genres: genres, platforms: platforms, developers: developers });
+  res.render("games/gameEditForm", {
+    title: "Edit Game",
+    game: game,
+    genres: genres,
+    platforms: platforms,
+    developers: developers,
+  });
 };
 
 const postEditGame = [
-  validateGame,
+  validateEdit,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -124,8 +184,8 @@ const postEditGame = [
       return res.status(400).render("games/gameEditForm", {
         title: "Edit Game",
         game: game,
-        genres: genres, 
-        platforms: platforms, 
+        genres: genres,
+        platforms: platforms,
         developers: developers,
         errors: errors.array(),
       });
@@ -142,21 +202,47 @@ const postEditGame = [
       return res.status(400).render("/games/gameEditForm", {
         title: "Edit Game",
         game: game,
-        genres: genres, 
-        platforms: platforms, 
+        genres: genres,
+        platforms: platforms,
         developers: developers,
         errors: errors.array(),
       });
     }
-    await gameDb.updateGame({ id: req.params.id, title, developerId, genreIds, platformIds });
+    await gameDb.updateGame({
+      id: req.params.id,
+      title,
+      developerId,
+      genreIds,
+      platformIds,
+    });
     res.redirect("/games");
   },
 ];
 
-const postDeleteGame = async (req, res) => {
-  const dev = await gameDb.deleteGame(req.params.id);
-  res.redirect("/games");
-};
+const postDeleteGame = [
+  validateDelete,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const [game, genres, platforms, developers] = await Promise.all([
+        gameDb.readGame(req.params.id),
+        genreDb.getAllGenres(),
+        platformDb.getAllPlatforms(),
+        devDb.getAllDevs(),
+      ]);
+      return res.status(400).render("games/gameEditForm", {
+        title: "Edit Game",
+        game: game,
+        genres: genres,
+        platforms: platforms,
+        developers: developers,
+        errors: errors.array(),
+      });
+    }
+    await gameDb.deleteGame(req.params.id);
+    res.redirect("/games");
+  },
+];
 
 module.exports = {
   getAllGames,

@@ -1,8 +1,9 @@
+require("dotenv").config();
 const { ResultWithContextImpl } = require("express-validator/lib/chain");
 const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/platformQueries");
 
-const validatePlatform = [
+const validateAdd = [
   body("name")
     .trim()
     .notEmpty()
@@ -20,12 +21,63 @@ const validatePlatform = [
     .matches(/^[\p{L}\d '&/-]+$/u)
     .withMessage("Abbreviation contains invalid characters.")
     .isLength({ max: 8 })
-    .withMessage("Abbreviation must not be longer than 8 characters.")
+    .withMessage("Abbreviation must not be longer than 8 characters."),
+];
+
+const validateEdit = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Platform is required.")
+    .bail()
+    .matches(/^[\p{L}\d '&/-]+$/u)
+    .withMessage("Platform contains invalid characters.")
+    .isLength({ max: 64 })
+    .withMessage("Platform must not be longer than 32 characters."),
+  body("abbrev")
+    .trim()
+    .notEmpty()
+    .withMessage("Abbreviation is required.")
+    .bail()
+    .matches(/^[\p{L}\d '&/-]+$/u)
+    .withMessage("Abbreviation contains invalid characters.")
+    .isLength({ max: 8 })
+    .withMessage("Abbreviation must not be longer than 8 characters."),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    }),
+];
+
+const validateDelete = [
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    }),
 ];
 
 const getAllPlatforms = async (req, res) => {
   const platforms = await db.getAllPlatforms();
-  res.render("platforms/platformIndex", { title: "Platforms", platforms: platforms });
+  res.render("platforms/platformIndex", {
+    title: "Platforms",
+    platforms: platforms,
+  });
 };
 
 const getNewPlatform = async (req, res) => {
@@ -33,7 +85,7 @@ const getNewPlatform = async (req, res) => {
 };
 
 const postNewPlatform = [
-  validatePlatform,
+  validateAdd,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -52,11 +104,14 @@ const postNewPlatform = [
 
 const getEditPlatform = async (req, res) => {
   const platform = await db.readPlatform(req.params.id);
-  res.render("platforms/platformEditForm", { title: "Edit Platform", platform: platform });
+  res.render("platforms/platformEditForm", {
+    title: "Edit Platform",
+    platform: platform,
+  });
 };
 
 const postEditPlatform = [
-  validatePlatform,
+  validateEdit,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -73,10 +128,22 @@ const postEditPlatform = [
   },
 ];
 
-const postDeletePlatform = async (req, res) => {
-  const platform = await db.deletePlatform(req.params.id);
-  res.redirect("/platforms");
-};
+const postDeletePlatform = [
+  validateDelete,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const platform = await db.readPlatform(req.params.id);
+      return res.status(400).render("platforms/platformEditForm", {
+        title: "Edit Platform",
+        platform: platform,
+        errors: errors.array(),
+      });
+    }
+    await db.deletePlatform(req.params.id);
+    res.redirect("/platforms");
+  },
+];
 
 module.exports = {
   getAllPlatforms,

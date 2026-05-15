@@ -21,7 +21,9 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "wipe": "node db/wipedb.js",
     "create": "node db/createdb.js",
+    "populate": "node db/populatedb.js",
     "lint": "eslint .",
     "test": "jest"
   },
