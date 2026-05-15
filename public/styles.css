@@ -258,8 +258,23 @@ select {
   align-items: center;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .flex-row.center {
   justify-content: center;
+}
+
+.category { 
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.count {
+  font-size: 1.25rem;
 }
 
 .responsive-container {

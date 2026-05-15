@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="<%= theme %>">
-<%- include('partials/head') %>
-
+<%- include('./partials/head') %>
+  
   <body>
-    <%- include('partials/header') %>
-      <div class="site-content">
-        <div>
-          <%= errorTitle %>
-        </div>
-        <div>
-          <%= errorMessage %>
+    <%- include('./partials/header') %>
+      <div class="site-content responsive-container">
+        <div class="list">
+          <div class="list-header">
+            <h2><%= errorTitle %></h2>
+          </div>
+          <div class="list-content">
+            <%= errorMessage %>
+          </div>
         </div>
       </div>
-      <%- include('partials/footer') %>
+      <%- include('./partials/footer') %>
   </body>
-
 </html>
