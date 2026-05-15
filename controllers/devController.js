@@ -1,8 +1,9 @@
+require("dotenv").config();
 const { ResultWithContextImpl } = require("express-validator/lib/chain");
 const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/devQueries");
 
-const validateDev = [
+const validateAdd = [
   body("name")
     .trim()
     .notEmpty()
@@ -12,6 +13,45 @@ const validateDev = [
     .withMessage("Developer contains invalid characters.")
     .isLength({ max: 64 })
     .withMessage(`Developer must not be longer than 64 characters.`),
+];
+
+const validateEdit = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Developer is required.")
+    .bail()
+    .matches(/^[\p{L}\d '&/-]+$/u)
+    .withMessage("Developer contains invalid characters.")
+    .isLength({ max: 64 })
+    .withMessage(`Developer must not be longer than 64 characters.`),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    })
+];
+
+const validateDelete = [
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required.")
+    .bail()
+    .custom((value) => {
+      if (value !== process.env.DB_DELETE) {
+        throw new Error("Invalid password");
+      }
+
+      return true;
+    })
 ];
 
 const getAllDevs = async (req, res) => {
@@ -24,12 +64,12 @@ const getNewDev = async (req, res) => {
 };
 
 const postNewDev = [
-  validateDev,
+  validateAdd,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const devs = await db.getAllDevs();
-      return res.status(400).render("/devs/devAddForm", {
+      return res.status(400).render("devs/devEditForm", {
         title: "Developers",
         devs: devs,
         errors: errors.array(),
@@ -47,7 +87,7 @@ const getEditDev = async (req, res) => {
 };
 
 const postEditDev = [
-  validateDev,
+  validateEdit,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -64,10 +104,22 @@ const postEditDev = [
   },
 ];
 
-const postDeleteDev = async (req, res) => {
-  const dev = await db.deleteDev(req.params.id);
-  res.redirect("/developers");
-};
+const postDeleteDev = [
+  validateDelete,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const dev = await db.readDev(req.params.id);
+      return res.status(400).render("devs/devEditForm", {
+        title: "Edit Developer",
+        dev: dev,
+        errors: errors.array(),
+      });
+    }
+    await db.deleteDev(req.params.id);
+    res.redirect("/developers");
+  },
+];
 
 module.exports = {
   getAllDevs,

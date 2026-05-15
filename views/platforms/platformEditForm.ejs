@@ -21,6 +21,8 @@
                 <input type="text" id="abbrevInput" name="abbrev" placeholder="Abbreviation"
                   value="<%= platform.abbrev %>" maxlength="8" required />
               </div>
+              <input type="hidden" name="password"/>
+
               <button type="submit" class="button primary big">Submit</button>
             </form>
             <hr>
@@ -28,6 +30,7 @@
               <div class="flex-row center">
                 <button type="submit" class="button accent big">Delete</button>
               </div>
+              <input type="hidden" name="password"/>
             </form>
         </div>
       </div>
